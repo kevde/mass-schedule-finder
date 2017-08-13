@@ -1,0 +1,13 @@
+--full-trace
+--colors
+--slow 1000
+--timeout 1500
+--reporter spec
+--ignore node_modules
+--require ts-node/register
+--require tsconfig-paths/register
+--compilers ts-node/register
+--require source-map-support/register
+--require test/settings/mocha.init.ts
+--recursive
+test/**/*.test.ts
