@@ -14,9 +14,7 @@ describe('Church', () => {
 
   beforeEach(() => {
     const point = new Point(CHURCH_X_AXIS, CHURCH_Y_AXIS);
-    const duration = new Duration();
-    const schedule = new Schedule(duration, new Date(), new Date());
-    church = new Church(CHURCH_NAME, CHURCH_ADDRESS, point, schedule);
+    church = new Church(CHURCH_NAME, CHURCH_ADDRESS, point);
   });
 
   it('should have name', () => {
@@ -49,11 +47,24 @@ describe('Church', () => {
     church.location.y.should.be.equals(CHURCH_Y_AXIS);
   });
 
-  it('should have a a mass schedule', () => {
+  it('should have an array of mass schedules', () => {
     // given
     // when
     // then
     church.should.have.property('schedule');
-    church.schedule.should.be.instanceof(Schedule);
+    church.schedule.should.be.instanceof(Array);
+    church.schedule.should.all.be.instanceof(Schedule);
+  });
+
+  it('should add a schedule', () => {
+   // given
+   const duration = new Duration();
+   const schedule = new Schedule(duration, new Date(), new Date());
+
+   // when
+   church.addSchedule(schedule);
+   
+   // then
+   church.schedule.should.contain(schedule);
   });
 });
