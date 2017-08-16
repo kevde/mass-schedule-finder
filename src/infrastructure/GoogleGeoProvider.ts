@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import * as moment from 'moment';
 
 export default class GoogleGeoProvider {
   apiKey: any;
@@ -15,7 +16,12 @@ export default class GoogleGeoProvider {
     return new GeoOption(this.apiKey, [sourceWord], [destinationWord]);
   }
 
-  queryPlugin(geoOption: GeoOption) {
+  queryGeoInformation(sourcePoint, destinationPoint) {
+    const geoOptions = this.createGeoOptions(sourcePoint, destinationPoint);
+    return this.queryGeoInformationByOptions(geoOptions);
+  }
+
+  queryGeoInformationByOptions(geoOption: GeoOption) {
     return this.googleDistanceApi(geoOption).then((results) => _.head(results));
   }
 }
