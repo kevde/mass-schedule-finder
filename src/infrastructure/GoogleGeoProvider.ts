@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import GeoInformation from './entities/GeoInformation';
 
 export default class GoogleGeoProvider {
   apiKey: any;
@@ -16,13 +17,19 @@ export default class GoogleGeoProvider {
     return new GeoOption(this.apiKey, [sourceWord], [destinationWord]);
   }
 
-  queryGeoInformation(sourcePoint, destinationPoint) {
+  createGeoOptionsWithDestions(source, destinations) {
+    const sourceWord = `${source.x},${source.y}`;
+    const destinationWords = _.map(destinations, (point) => `${point.x},${point.y}`);
+    return new GeoOption(this.apiKey, [sourceWord], destinationWords);
+  }
+
+  async queryGeoInformation(sourcePoint, destinationPoint): Promise<GeoInformation[]> {
     const geoOptions = this.createGeoOptions(sourcePoint, destinationPoint);
     return this.queryGeoInformationByOptions(geoOptions);
   }
 
   queryGeoInformationByOptions(geoOption: GeoOption) {
-    return this.googleDistanceApi(geoOption).then((results) => _.head(results));
+    return this.googleDistanceApi(geoOption).then((results) => results);
   }
 }
 

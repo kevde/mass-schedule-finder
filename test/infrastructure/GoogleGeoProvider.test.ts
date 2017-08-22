@@ -11,6 +11,7 @@ describe('GoogleGeoProvider', () => {
   let provider, googleDistanceApi, geoInformation;
   const source = new Point(51.5033640, -0.1276250);
   const destination = new Point(51.5033640, -0.96100);
+  const destinations = [new Point(51.5033640, -0.96100), new Point(51.5033640, -0.9700)];
   const googleApiKey = 'AIzaSyCL_logO-qxMA7CAaqqRxjzmJAwSvlkdIA';
 
   beforeEach(() => {
@@ -31,6 +32,19 @@ describe('GoogleGeoProvider', () => {
     geoOptions.destinations[0].should.be.equals(`${destination.x},${destination.y}`);
   });
 
+  it('should create geo options with multiple destinations', () => {
+    // given
+
+    // when
+    const geoOptions = provider.createGeoOptionsWithDestions(source, destinations);
+
+    // then
+    geoOptions.key.should.be.equals(googleApiKey);
+    geoOptions.origins[0].should.be.equals(`${source.x},${source.y}`);
+    geoOptions.destinations[0].should.be.equals(`${destinations[0].x},${destinations[0].y}`);
+    geoOptions.destinations[1].should.be.equals(`${destinations[1].x},${destinations[1].y}`);
+  });
+
   it('should provide real communication from api', () => {
     // given
     const provider = new GoogleGeoProvider(googleApiKey, googleDistanceApi);
@@ -41,9 +55,24 @@ describe('GoogleGeoProvider', () => {
 
     // then
     return queryPromise.then((geoResult) => {
-      moment(geoResult.duration);
-      geoResult.should.be.instanceof(Object);
+     geoResult.should.be.instanceof(Array);
+     geoResult.should.all.be.instanceof(Object);
     })
+  });
+
+  it('should provide real communication from api with multiple destinations', () => {
+    // given
+    const provider = new GoogleGeoProvider(googleApiKey, googleDistanceApi);
+
+    // when
+    const geoOptions = provider.createGeoOptionsWithDestions(source, destinations);
+    const queryPromise = provider.queryGeoInformationByOptions(geoOptions);
+
+    // then
+    return queryPromise.then((geoResult) => {
+      geoResult.should.be.instanceof(Array);
+      geoResult.should.all.be.instanceof(Object);
+    });
   });
 
   it('should query results from geoOptions', () => {

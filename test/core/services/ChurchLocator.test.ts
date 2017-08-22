@@ -83,4 +83,12 @@ describe('ChurchLocator', () => {
     churchesAtTenMorning.should.be.deep.equals([upDilimanChurch, commonWealthChurch]);
     churchesAtElevenMorning.should.be.deep.equals([commonWealthChurch]);
   });
+
+  it('should get all churches with the nearest arrival time', () => {
+    // given
+
+    // when
+
+    // then
+  });
 });
