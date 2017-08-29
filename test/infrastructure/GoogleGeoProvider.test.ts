@@ -45,7 +45,7 @@ describe('GoogleGeoProvider', () => {
     geoOptions.destinations[1].should.be.equals(`${destinations[1].x},${destinations[1].y}`);
   });
 
-  it('should provide real communication from api', () => {
+  it.skip('should provide real communication from api', () => {
     // given
     const provider = new GoogleGeoProvider(googleApiKey, googleDistanceApi);
 
@@ -60,7 +60,7 @@ describe('GoogleGeoProvider', () => {
     })
   });
 
-  it('should provide real communication from api with multiple destinations', () => {
+  it.skip('should provide real communication from api with multiple destinations', () => {
     // given
     const provider = new GoogleGeoProvider(googleApiKey, googleDistanceApi);
 

@@ -12,8 +12,9 @@ describe('ChurchLocator', () => {
   const NEAR_CHURCH_NAME = 'Manila Church';
   const FAR_CHURCH_NAME = 'Malate Church';
   let churches, teacherVillageChurch, upDilimanChurch, commonWealthChurch, meycauwayanChurch;
-  let nineMorningSchedule, tenMorningSchedule, elevenMorningSchedule;
+  let eightMorningSchedule, nineMorningSchedule, tenMorningSchedule, elevenMorningSchedule;
   const CURRENT_POINT = new Point(10, 10);
+  const eightMorning = new Date('1 Jan 1900 08:00:00');
   const nineMorning = new Date('1 Jan 1900 09:00:00');
   const tenMorning = new Date('1 Jan 1900 10:00:00');
   const elevenMorning = new Date('1 Jan 1900 11:00:00');
@@ -28,6 +29,7 @@ describe('ChurchLocator', () => {
     churches = [meycauwayanChurch, commonWealthChurch, teacherVillageChurch, upDilimanChurch];
 
     const duration = new Duration();
+    eightMorningSchedule = new Schedule(duration, eightMorning, nineMorning);
     nineMorningSchedule = new Schedule(duration, nineMorning, tenMorning);
     tenMorningSchedule = new Schedule(duration, tenMorning, elevenMorning);
     elevenMorningSchedule = new Schedule(duration, elevenMorning, twelveNoon);
@@ -39,6 +41,11 @@ describe('ChurchLocator', () => {
 
     commonWealthChurch.addSchedule(tenMorningSchedule);
     commonWealthChurch.addSchedule(elevenMorningSchedule);
+
+    teacherVillageChurch.withArrivalTime(new Date('1 Jan 1900 08:59:59'));
+    upDilimanChurch.withArrivalTime(new Date('1 Jan 1900 07:59:59'));
+    commonWealthChurch.withArrivalTime(new Date('1 Jan 1900 08:00:01'));
+    meycauwayanChurch.withArrivalTime(new Date('1 Jan 1900 07:00:00'));
   });
 
   beforeEach(() => {
@@ -54,7 +61,7 @@ describe('ChurchLocator', () => {
     const churches = [farthestChurch, nearestChurch];
 
     // when
-    const church = churchLocator.getNearestChurch(CURRENT_POINT, churches, 50000);
+    const church = churchLocator.getNearest(CURRENT_POINT, churches, 50000);
 
     // then
     church.should.be.deep.equals(nearestChurch);
@@ -84,11 +91,39 @@ describe('ChurchLocator', () => {
     churchesAtElevenMorning.should.be.deep.equals([commonWealthChurch]);
   });
 
-  it('should get all churches with the nearest arrival time', () => {
+  it('sort all churches by arrival time', () => {
     // given
 
     // when
+    const churchesByArrivalTime = churchLocator.sortByArrivalTime(churches);
 
     // then
+    churchesByArrivalTime.should.be.deep.equals([meycauwayanChurch, upDilimanChurch, commonWealthChurch, teacherVillageChurch]);
+  });
+
+  it('sort nearest church by arrival time', () => {
+    // given
+
+    // when
+    const churchesByArrivalTime = churchLocator.getNearestByArrivalTime(churches);
+
+    // then
+    churchesByArrivalTime.should.be.deep.equals(meycauwayanChurch);
+  });
+
+  it('should get all nearby churches can be catchup in a given schedule', () => {
+    // given
+    teacherVillageChurch.addSchedule(eightMorningSchedule);
+    upDilimanChurch.addSchedule(eightMorningSchedule);
+    commonWealthChurch.addSchedule(eightMorningSchedule);
+    meycauwayanChurch.addSchedule(eightMorningSchedule);
+
+    // when
+    const churchesAtEightMorning = churchLocator.getArrivableChurches(churches, eightMorning);
+    const churchesAtNineMorning = churchLocator.getArrivableChurches(churches, nineMorning);
+
+    // then
+    churchesAtEightMorning.should.be.deep.equals([meycauwayanChurch, upDilimanChurch]);
+    churchesAtNineMorning.should.be.deep.equals([upDilimanChurch, teacherVillageChurch]);
   });
 });
