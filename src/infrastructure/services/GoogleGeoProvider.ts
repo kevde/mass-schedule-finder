@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import GeoInformation from './entities/GeoInformation';
+import GeoInformation from '../entities/GeoInformation';
 
 export default class GoogleGeoProvider {
   apiKey: any;

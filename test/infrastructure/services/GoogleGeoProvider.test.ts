@@ -3,9 +3,9 @@ import * as Q from 'q';
 import * as sinon from 'sinon';
 import * as moment from 'moment';
 import * as GoogleDistanceApi from 'google-distance-api';
-import Point from '../../src/core/entities/Point';
-import GoogleGeoProvider from '../../src/infrastructure/GoogleGeoProvider';
-import GeoInformation from '../../src/infrastructure/entities/GeoInformation';
+import Point from '../../../src/core/entities/Point';
+import GoogleGeoProvider from '../../../src/infrastructure/services/GoogleGeoProvider';
+import GeoInformation from '../../../src/infrastructure/entities/GeoInformation';
 
 describe('GoogleGeoProvider', () => {
   let provider, googleDistanceApi, geoInformation;
@@ -55,8 +55,8 @@ describe('GoogleGeoProvider', () => {
 
     // then
     return queryPromise.then((geoResult) => {
-     geoResult.should.be.instanceof(Array);
-     geoResult.should.all.be.instanceof(Object);
+      geoResult.should.be.instanceof(Array);
+      geoResult.should.all.be.instanceof(Object);
     })
   });
 

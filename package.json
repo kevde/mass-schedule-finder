@@ -4,6 +4,7 @@
   "description": "Mass Schedule Finder",
   "main": "index.js",
   "scripts": {
+    "start": "node index",
     "test": "mocha --opts test/settings/mocha.opts"
   },
   "keywords": [
@@ -14,15 +15,31 @@
   "author": "Darkspot.net",
   "license": "ISC",
   "devDependencies": {
+    "@nestjs/common": "^3.0.0",
+    "@nestjs/core": "^3.0.1",
+    "@nestjs/microservices": "^3.0.1",
+    "@nestjs/testing": "^3.0.0",
+    "@nestjs/websockets": "^3.0.0",
     "@types/mocha": "^2.2.41",
     "@types/node": "^6.0.81",
     "chai": "^4.1.0",
     "chai-things": "^0.2.0",
+    "cors": "^2.8.4",
     "mocha": "^3.4.2",
+    "pug": "^2.0.0-rc.3",
     "q": "^1.5.0",
+    "reflect-metadata": "^0.1.10",
+    "rxjs": "^5.4.3",
     "sinon-chai": "^2.11.0",
     "ts-node": "^3.2.0",
     "tsconfig-paths": "^2.2.0",
-    "typescript": "^2.5.0-dev.20170712"
+    "typescript": "^2.5.0-dev.20170712",
+    "webpack": "^3.5.5",
+    "webpack-dev-middleware": "^1.12.0",
+    "webpack-hot-middleware": "^2.18.2"
+  },
+  "dependencies": {
+    "@nestjs/common": "^3.0.0",
+    "@nestjs/core": "^3.0.1"
   }
 }
