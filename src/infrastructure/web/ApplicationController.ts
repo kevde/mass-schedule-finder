@@ -1,13 +1,15 @@
 import { Controller, Get, HttpStatus, Post } from '@nestjs/common';
 import ChurchRepository from "../repositories/ChurchRepository";
+import Criteria from '../database/criterias/Criteria';
 
 @Controller('api')
 export default class ApplicationController {
-  constructor(private churchRepository :ChurchRepository){}
+  constructor(private churchRepository: ChurchRepository) {}
+
   @Get('search')
-  main(request, response, next) {
-    console.log(this);
-    console.log(request);
-    response.status(HttpStatus.OK).json(request);
+  async main(request, response, next) {
+    const defaultCriteria = new Criteria('churches');
+    const churches = await this.churchRepository.getChurches(defaultCriteria);
+    response.status(HttpStatus.OK).json(churches);
   }
 }
