@@ -9,7 +9,8 @@ export default class ApplicationController {
 
   @Get('search')
   async main(request, response, next) {
-    const churches = await this.churchRepository.getChurches(this.criteriaFactory.createBasic('churches'));
+    const churchCriteria = this.criteriaFactory.createChurchCriteria(request.query);
+    const churches = await this.churchRepository.getChurches(churchCriteria);
     response.status(HttpStatus.OK).json(churches);
   }
 }

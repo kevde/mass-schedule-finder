@@ -23,14 +23,15 @@ describe('ApplicationController', () => {
     const request = httpMocks.createRequest();
     const response = httpMocks.createResponse();
     const mockCriteria = new Criteria('churches');
-    criteriaFactory.createBasic.withArgs('churches').returns(mockCriteria);
+    const rawQuery = {};
+    criteriaFactory.createChurchCriteria.withArgs(rawQuery).returns(mockCriteria);
 
     // when
     const resultPromise = controller.main(request, response);
 
     // then
     return resultPromise.then((churches) => {
-      criteriaFactory.createBasic.should.be.calledWith('churches');
+      criteriaFactory.createChurchCriteria.should.be.calledWith(rawQuery);
       churchRepository.getChurches.should.be.calledWith(mockCriteria);
     });
   });
