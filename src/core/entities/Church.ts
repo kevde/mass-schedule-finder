@@ -28,4 +28,11 @@ export default class Church {
   hasSchedule(startTime) {
     return _.some(this.schedule, ['startTime', startTime]);
   }
+
+
+  static parse(rawChurch) {
+    const x = _.get(rawChurch, 'location.x');
+    const y = _.get(rawChurch, 'location.y');
+    return new Church(rawChurch.name, rawChurch.address, new Point(x,y));
+  }
 }

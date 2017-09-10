@@ -16,4 +16,11 @@
      });
      return deferred.promise;
    }
+
+   save(criteria: Criteria, entityObject: any) {
+     const connection = this.connect(criteria.databaseName);
+     const deferred = Q.defer();
+     connection.insert(entityObject).callback((err) => (err) ? deferred.reject(err) : deferred.resolve(entityObject));
+     return deferred.promise;
+   }
  }

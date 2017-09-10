@@ -12,6 +12,10 @@ export default class ChurchRepository {
 
   getChurches(criteria: Criteria) {
     return this.database.query(criteria)
-      .then((rawData) => _.map(rawData, (rawChurch) => new Church(rawChurch.name, rawChurch.place, rawChurch.description)));
+      .then((rawData) => _.map(rawData, (rawChurch) => Church.parse(rawChurch)));
+  }
+
+  addChurch(criteria: Criteria, church: Church) {
+   return this.database.save(criteria, church);
   }
 }

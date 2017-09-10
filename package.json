@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "test": "mocha --opts test/settings/mocha.opts"
+    "test": "nyc  --reporter=lcov --reporter=text-lcov mocha --opts test/settings/mocha.opts"
   },
   "keywords": [
     "mass",
@@ -28,6 +28,7 @@
     "mocha": "^3.4.2",
     "node-mocks-http": "^1.6.4",
     "nosql": "^5.0.3",
+    "nyc": "^11.2.1",
     "pug": "^2.0.0-rc.3",
     "q": "^1.5.0",
     "reflect-metadata": "^0.1.10",
@@ -43,5 +44,18 @@
   "dependencies": {
     "@nestjs/common": "^3.0.0",
     "@nestjs/core": "^3.0.1"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "test/**/*.ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
   }
 }

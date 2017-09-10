@@ -9,9 +9,9 @@ export default class CriteriaFactory {
     return new Criteria('churches');
   }
 
-  createQueryObject(rawQuery: any) {
+  createQueryObject(rawQuery: any): QueryObject {
     const startTime = moment.unix(parseInt(rawQuery.start)).toDate();
-    const point =  new Point(parseFloat(rawQuery.long), parseFloat(rawQuery.lat));
+    const point = new Point(parseFloat(rawQuery.long), parseFloat(rawQuery.lat));
     const range = parseFloat(rawQuery.r);
     return new QueryObject(point, startTime, range);
   }
